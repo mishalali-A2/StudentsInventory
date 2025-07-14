@@ -34,7 +34,7 @@ This is a RESTful API built with ASP.NET Core for managing student records. The 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/student-inventory-api.git
+   git clone [https://github.com/yourusername/student-inventory-api.git](https://github.com/mishalali-A2/StudentsInventory.git)
    cd student-inventory-api
    ```
 
