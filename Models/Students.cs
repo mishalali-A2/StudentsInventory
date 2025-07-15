@@ -1,4 +1,4 @@
-﻿namespace StudentsInventory
+﻿namespace StudentsInventory.Models
 {
     public class Students
     {

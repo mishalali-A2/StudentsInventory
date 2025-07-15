@@ -1,9 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using StudentsInventory.Data;
-using Microsoft.OpenApi.Models; 
+using Microsoft.OpenApi.Models;
+using StudentsInventory.Data.Interfaces;
+using StudentsInventory.Data.Repositories;
+using StudentsInventory.Services;
+using StudentsInventory.Services.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+
+//services registering
+builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 //Swagger services for testing
 builder.Services.AddEndpointsApiExplorer();

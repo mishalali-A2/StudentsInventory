@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudentsInventory.Models;
 
 namespace StudentsInventory.Data
 {

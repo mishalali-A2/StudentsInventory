@@ -1,88 +1,81 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using StudentsInventory.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using StudentsInventory.Models;
+using StudentsInventory.Services.Interfaces;
 
 namespace StudentsInventory.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StudentController : ControllerBase
+    public class StudentController : BaseController
     {
-        private readonly ApplicationDbContext dbContext;
-        public StudentController(ApplicationDbContext dbContext)
-        {
-            this.dbContext = dbContext;
+        private readonly IStudentService studentService;
 
+        public StudentController(IStudentService student_Service)
+        {
+            studentService = student_Service;
         }
 
         [HttpGet]
-        public IActionResult GetStudents()
+        public async Task<IActionResult> GetStudents()
         {
-            var allStudents = dbContext.Students.ToList();
-            return Ok(allStudents);
+            var allStudents = await studentService.GetStudentsAsync();
+            return Success("Students fetched successfully", allStudents);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetStudentbyID(int id)
+        public async Task<IActionResult> GetStudentbyID(int id)
         {
-            var student = dbContext.Students.Find(id);
+            var student = await studentService.GetStudentByID(id);
+            if (student == null) return NotFound("Student not found");
 
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(student);
+            return Success("Student fetched successfully", student);
         }
 
         [HttpPost]
-        public IActionResult AddStudents(AddStudentDTO new_strudentDTO)
+        public async Task<IActionResult> AddStudents(AddStudentDTO new_studentDTO)
         {
-            var studentEntity = new Students()
+            try
             {
-                Name = new_strudentDTO.Name,
-                Email = new_strudentDTO.Email,
-                Phone = new_strudentDTO.Phone,
-                Enroll_Date = new_strudentDTO.Enroll_Date,
-                Address = new_strudentDTO.Address
-            };
-            dbContext.Students.Add(studentEntity);
-            dbContext.SaveChanges();
-
-            return Ok(studentEntity);
+                var student = await studentService.AddStudentAsync(new_studentDTO);
+                return Success("Student added successfully", student);
+            }
+            catch (Exception exep)
+            {
+                return BadRequest("Failed to add student", new List<string> { exep.Message });
+            }
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult updateStudent(int id, UpdateStudentDTO change_studentDTO)
+        public async Task<IActionResult> UpdateStudent(int id, UpdateStudentDTO changed_studentDTO)
         {
-            var student = dbContext.Students.Find(id);
+            try
+            {
+                var student = await studentService.UpdateStudentAsync(id, changed_studentDTO);
+                if (student == null) return NotFound("Student not found");
 
-            if (student == null) return NotFound();
-
-            student.Name = change_studentDTO.Name;
-            student.Email = change_studentDTO.Email;
-            student.Phone = change_studentDTO.Phone;
-            student.Enroll_Date = change_studentDTO.Enroll_Date;
-            student.Address = change_studentDTO.Address;
-
-            dbContext.SaveChanges();
-            return Ok(student);
+                return Success("Student updated successfully", student);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Failed to update student", new List<string> { ex.Message });
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult deleteStudent(int id)
+        public async Task<IActionResult> DeleteStudent(int id)
         {
-            var student = dbContext.Students.Find(id);
+            try
+            {
+                var student = await studentService.DeleteStudentAsync(id);
+                if (student == null) return NotFound("Student not found");
 
-            if (student == null) return NotFound();
-
-            dbContext.Students.Remove(student);
-            dbContext.SaveChanges();
-            return Ok(student);
+                return Success("Student deleted successfully", student);
+            }
+            catch (Exception exep)
+            {
+                return InternalServerError($"Failed to delete student: {exep.Message}");
+            }
         }
     }
 }
