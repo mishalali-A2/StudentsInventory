@@ -9,6 +9,13 @@ using StudentsInventory.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularDev",
+        builder => builder.WithOrigins("http://localhost:4200") // Angular dev server
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
+});
 
 //services registering
 builder.Services.AddScoped<IStudentRepo, StudentRepo>();
@@ -35,6 +42,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCors("AllowAngularDev");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

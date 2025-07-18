@@ -1,21 +1,11 @@
 ﻿{
   "profiles": {
-    "http": {
+    "StudentsInventory": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "swagger/index.html",
-      "applicationUrl": "http://localhost:5002",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "https": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger/index.html",
-      "applicationUrl": "https://localhost:7169;http://localhost:5002",
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5000", 
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
