@@ -8,5 +8,6 @@ namespace StudentsInventory.Data
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Students> Students { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

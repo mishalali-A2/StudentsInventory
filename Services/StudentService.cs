@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using StudentsInventory.Data;
-using StudentsInventory.Data.Interfaces;
+﻿using StudentsInventory.Data.Interfaces;
 using StudentsInventory.Models;
-using StudentsInventory.Services;
 using StudentsInventory.Services.Interfaces;
 
 namespace StudentsInventory.Services

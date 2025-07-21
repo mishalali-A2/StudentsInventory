@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentsInventory.Models;
 using StudentsInventory.Services.Interfaces;
 
 namespace StudentsInventory.Controllers
 {
+    [Authorize]
     public class StudentController : BaseController
     {
+
         private readonly IStudentService studentService;
 
         public StudentController(IStudentService student_Service)
@@ -13,6 +16,7 @@ namespace StudentsInventory.Controllers
             studentService = student_Service;
         }
 
+        //get req
         [HttpGet]
         public async Task<IActionResult> GetStudents()
         {
@@ -20,6 +24,7 @@ namespace StudentsInventory.Controllers
             return Success("Students fetched successfully", allStudents);
         }
 
+        //get via ID
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetStudentbyID(int id)
@@ -30,6 +35,7 @@ namespace StudentsInventory.Controllers
             return Success("Student fetched successfully", student);
         }
 
+        //post req
         [HttpPost]
         public async Task<IActionResult> AddStudents(AddStudentDTO new_studentDTO)
         {
@@ -44,6 +50,7 @@ namespace StudentsInventory.Controllers
             }
         }
 
+        //put req-> update data
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> UpdateStudent(int id, UpdateStudentDTO changed_studentDTO)
@@ -61,6 +68,7 @@ namespace StudentsInventory.Controllers
             }
         }
 
+        //del req
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteStudent(int id)
